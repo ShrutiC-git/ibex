@@ -33,7 +33,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: ./util/container/Dockerfile.uffizzi
+          file: ./uffizzi/Dockerfile.uffizzi
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           push: true
@@ -61,7 +61,7 @@ jobs:
           GHA_BRANCH=${{github.head_ref}}
           export GHA_ACTOR GHA_REPO GHA_BRANCH
           # Render simple template from environment variables.
-          envsubst < docker-compose.uffizzi.yml > docker-compose.rendered.yml
+          envsubst < ./uffizzi/docker-compose.uffizzi.yml > docker-compose.rendered.yml
           cat docker-compose.rendered.yml
       - name: Upload Rendered Compose File as Artifact
         uses: actions/upload-artifact@v3
