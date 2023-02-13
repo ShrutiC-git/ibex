@@ -11,8 +11,6 @@
 # This list of packages is also included in the documentation at
 # doc/ug/install_instructions/index.md. When updating this file also check if
 # doc/ug/install_instructions/index.md needs to be updated as well.
-#
-# Keep it sorted.
 autoconf
 bison
 build-essential
