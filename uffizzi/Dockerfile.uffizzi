@@ -27,8 +27,13 @@ RUN ln -sf /bin/bash /bin/sh
 # Necessary to avoid user interaction with tzdata during install
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=UTC
+# RISC-V device toolchain
+COPY ./get-toolchain.py /tmp/get-toolchain.py
+RUN /tmp/get-toolchain.py -r ${RISCV_TOOLCHAIN_TAR_VERSION} \
+    && rm -f /tmp/get-toolchain.py
+    
 
-COPY ../apt-requirements.txt /tmp/apt-requirements.txt
+COPY ./apt-requirements.txt /tmp/apt-requirements.txt
 RUN echo "verilator-${VERILATOR_VERSION}" >>/tmp/apt-requirements.txt \
     && sed -i -e '/^$/d' -e '/^#/d' -e 's/#.*//' /tmp/apt-requirements.txt \
     && apt-get update \
