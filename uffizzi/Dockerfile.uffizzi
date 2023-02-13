@@ -11,7 +11,6 @@ ARG GCC_VERSION=9
 # This should match the version of the lowRISC RISC-V toolchain.
 ARG CLANG_VERSION=13
 
-
 # Main container image.
 FROM ubuntu:20.04 AS opentitan
 ARG VERILATOR_VERSION
@@ -29,14 +28,7 @@ RUN ln -sf /bin/bash /bin/sh
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=UTC
 
-USER root:root
-
-# RISC-V device toolchain
-COPY ./get-toolchain.py /tmp/get-toolchain.py
-RUN /tmp/get-toolchain.py -r ${RISCV_TOOLCHAIN_TAR_VERSION} \
-    && rm -f /tmp/get-toolchain.py
-    
-COPY ./apt-requirements.txt /tmp/apt-requirements.txt
+COPY ../apt-requirements.txt /tmp/apt-requirements.txt
 RUN echo "verilator-${VERILATOR_VERSION}" >>/tmp/apt-requirements.txt \
     && sed -i -e '/^$/d' -e '/^#/d' -e 's/#.*//' /tmp/apt-requirements.txt \
     && apt-get update \
@@ -52,13 +44,17 @@ RUN echo "verilator-${VERILATOR_VERSION}" >>/tmp/apt-requirements.txt \
         time \
         software-properties-common \
     && apt-get clean; \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*    
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*  
+
+# RISC-V device toolchain
+COPY ./get-toolchain.py /tmp/get-toolchain.py
+RUN /tmp/get-toolchain.py -r ${RISCV_TOOLCHAIN_TAR_VERSION} \
+    && rm -f /tmp/get-toolchain.py  
 
 # All subsequent steps are performed as user.
 USER dev:dev
 
 # Install Python plus packages.
-#
 # Explicitly updating pip and setuptools is required to have these tools
 # properly parse Python-version metadata, which some packages uses to
 # specify that an older version of a package must be used for a certain
