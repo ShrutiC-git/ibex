@@ -1,7 +1,7 @@
 name: Build PR Image
 on:
   pull_request:
-    types: [opened, synchronize, reopened, closed, review_requested]
+    types: [opened, synchronize, reopened, closed, review_requested, ready_for_review]
 
 jobs:
   build-ibex:
