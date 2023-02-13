@@ -11,6 +11,7 @@ ARG GCC_VERSION=9
 # This should match the version of the lowRISC RISC-V toolchain.
 ARG CLANG_VERSION=13
 
+
 # Main container image.
 FROM ubuntu:20.04 AS opentitan
 ARG VERILATOR_VERSION
