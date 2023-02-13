@@ -35,7 +35,6 @@ COPY ./get-toolchain.py /tmp/get-toolchain.py
 RUN /tmp/get-toolchain.py -r ${RISCV_TOOLCHAIN_TAR_VERSION} \
     && rm -f /tmp/get-toolchain.py
     
-
 COPY ./apt-requirements.txt /tmp/apt-requirements.txt
 RUN echo "verilator-${VERILATOR_VERSION}" >>/tmp/apt-requirements.txt \
     && sed -i -e '/^$/d' -e '/^#/d' -e 's/#.*//' /tmp/apt-requirements.txt \
