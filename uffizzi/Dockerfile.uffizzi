@@ -27,11 +27,8 @@ RUN ln -sf /bin/bash /bin/sh
 COPY ./apt-requirements.txt ./apt-requirements.txt
 RUN apt-get install -y <./apt-requirements.txt 
 
-# All subsequent steps are performed as user.
-USER dev:dev
-
 # RISC-V device toolchain
-COPY --chown=dev:dev ./get-toolchain.py ./get-toolchain.py
+COPY ./get-toolchain.py ./get-toolchain.py
 RUN  ./get-toolchain.py -r ${RISCV_TOOLCHAIN_TAR_VERSION} \
     && rm -f ./get-toolchain.py  
 
