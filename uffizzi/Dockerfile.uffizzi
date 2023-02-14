@@ -29,6 +29,7 @@ RUN apt-get install -y <./apt-requirements.txt
 
 # RISC-V device toolchain
 COPY ./get-toolchain.py ./get-toolchain.py
+RUN chmod +x ./get-toolchain.py
 RUN  ./get-toolchain.py -r ${RISCV_TOOLCHAIN_TAR_VERSION} \
     && rm -f ./get-toolchain.py  
 
