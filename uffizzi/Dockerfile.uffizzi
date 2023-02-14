@@ -34,7 +34,7 @@ RUN echo "verilator-${VERILATOR_VERSION}" >>/tmp/apt-requirements.txt \
     && apt-get update && \
     apt-get install -y <apt-requirements.txt \
         sudo \
-        verilator-4.210 \
+        verilator \
         gosu \
         locales \
         locales-all \
