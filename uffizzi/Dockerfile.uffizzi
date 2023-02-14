@@ -51,10 +51,10 @@ RUN echo "verilator-${VERILATOR_VERSION}" >>/tmp/apt-requirements.txt \
     && sed -i -e '/^$/d' -e '/^#/d' -e 's/#.*//' /tmp/apt-requirements.txt \
     && apt-get update && \
     xargs apt-get install -y </tmp/apt-requirements.txt \
+    && apt-get install -y \
         sudo \
         verilator \
         gosu \
-        libelf-dev \
         locales \
         locales-all \
         minicom \
