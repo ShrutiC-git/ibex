@@ -31,14 +31,6 @@ ENV TZ=UTC
 COPY apt-requirements.txt apt-requirements.txt
 RUN apt-get update && \
     apt-get install -y <apt-requirements.txt \
-    && apt-get install -y \
-        python3 \
-        python3-pip \
-        python3-setuptools \
-        python3-urllib3 \
-        python3-wheel \
-        shellcheck \
-        srecord \
         sudo \
         gosu \
         locales \
@@ -57,7 +49,6 @@ RUN chmod +x ./get-toolchain.py
 RUN  ./get-toolchain.py -r ${RISCV_TOOLCHAIN_TAR_VERSION} \
     && rm -f ./get-toolchain.py  
 
-
 # Install Python plus packages.
 # Explicitly updating pip and setuptools is required to have these tools
 # properly parse Python-version metadata, which some packages uses to
@@ -66,7 +57,7 @@ RUN  ./get-toolchain.py -r ${RISCV_TOOLCHAIN_TAR_VERSION} \
 # version, which then fails to run.
 ENV PATH "/home/dev/.local/bin:${PATH}"
 COPY --chown=dev:dev ./python-requirements.txt ./python-requirements.txt
-RUN python3 -m pip install --user -U pip "setuptools<66.0.0" \
+RUN python3 -m pip install --user -U \
     && python3 -m pip install --user -r ./python-requirements.txt \
         --no-warn-script-location \
     && rm -f ./python-requirements.txt
