@@ -54,7 +54,7 @@ RUN echo "verilator-${VERILATOR_VERSION}" >>/tmp/apt-requirements.txt \
         sudo \
         verilator \
         gosu \
-        libelf-dev
+        libelf-dev \
         locales \
         locales-all \
         minicom \
