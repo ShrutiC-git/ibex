@@ -65,7 +65,9 @@ RUN echo "verilator-${VERILATOR_VERSION}" >>/tmp/apt-requirements.txt \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
 # Install the CI version of gcc and g++
-RUN add-apt-repository ppa:ubuntu-toolchain-r/test \
+RUN apt-get update && \
+    apt-get install python-software-properties && \
+    add-apt-repository ppa:ubuntu-toolchain-r/test \
     && apt-get update \
     && apt-get install -y gcc-${GCC_VERSION} g++-${GCC_VERSION} \
     && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_VERSION} 90 \
