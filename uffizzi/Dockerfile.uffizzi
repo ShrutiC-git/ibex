@@ -24,24 +24,6 @@ ARG CLANG_VERSION
 # Use bash as default shell.
 RUN ln -sf /bin/bash /bin/sh
 
-# Add OBS repository to apt sources.
-RUN OBS_URL="https://download.opensuse.org/repositories"; \
-    OBS_PATH="/home:/phiwag:/edatools/xUbuntu_20.04"; \
-    REPO_URL="${OBS_URL}${OBS_PATH}"; \
-    \
-    EDATOOLS_REPO_KEY="${REPO_URL}/Release.key"; \
-    EDATOOLS_REPO="deb ${REPO_URL}/ /"; \
-    \
-    apt-get update && \
-    apt-get install -y curl && \
-    \
-    curl -f -sL -o "$TMPDIR/obs.asc" "$EDATOOLS_REPO_KEY" || { \
-        error "Failed to download repository key from ${REPO_URL}"; \
-    } && \
-    echo "$EDATOOLS_REPO" > "$TMPDIR/obs.list" && \
-    mv "$TMPDIR/obs.asc"  /etc/apt/trusted.gpg.d/obs.asc && \
-    mv "$TMPDIR/obs.list" /etc/apt/sources.list.d/edatools.list
-
 # Necessary to avoid user interaction with tzdata during install
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=UTC
@@ -60,7 +42,6 @@ RUN echo "verilator-${VERILATOR_VERSION}" >>/tmp/apt-requirements.txt \
         dc \
         time \
         software-properties-common \
-        verilator=4.210 \
     && apt-get clean; \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
