@@ -57,6 +57,8 @@ RUN  ./get-toolchain.py -r ${RISCV_TOOLCHAIN_TAR_VERSION} \
 # version, which then fails to run.
 ENV PATH "/home/dev/.local/bin:${PATH}"
 COPY --chown=dev:dev ./python-requirements.txt ./python-requirements.txt
+RUN apt-get update && \
+    apt-get install -y python3-pip pip \
 RUN python3 -m pip install --user -U \
     && python3 -m pip install --user -r ./python-requirements.txt \
         --no-warn-script-location \
