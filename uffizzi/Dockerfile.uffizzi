@@ -28,16 +28,16 @@ RUN ln -sf /bin/bash /bin/sh
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=UTC
 # RISC-V device toolchain
-COPY ./get-toolchain.py /tmp/get-toolchain.py
-RUN /tmp/get-toolchain.py -r ${RISCV_TOOLCHAIN_TAR_VERSION} \
-    && rm -f /tmp/get-toolchain.py
+COPY ./get-toolchain.py ./get-toolchain.py
+RUN ./get-toolchain.py -r ${RISCV_TOOLCHAIN_TAR_VERSION} \
+    && rm -f ./get-toolchain.py
     
 
-COPY ./apt-requirements.txt /tmp/apt-requirements.txt
-RUN echo "verilator-${VERILATOR_VERSION}" >>/tmp/apt-requirements.txt \
-    && sed -i -e '/^$/d' -e '/^#/d' -e 's/#.*//' /tmp/apt-requirements.txt \
+COPY ./apt-requirements.txt ./apt-requirements.txt
+RUN echo "verilator-${VERILATOR_VERSION}" >>./apt-requirements.txt \
+    && sed -i -e '/^$/d' -e '/^#/d' -e 's/#.*//' ./apt-requirements.txt \
     && apt-get update \
-    && xargs apt-get install -y </tmp/apt-requirements.txt \
+    && xargs apt-get install -y <./apt-requirements.txt \
     && apt-get install -y \
         sudo \
         gosu \
@@ -48,13 +48,12 @@ RUN echo "verilator-${VERILATOR_VERSION}" >>/tmp/apt-requirements.txt \
         dc \
         time \
         software-properties-common \
-    && apt-get clean; \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*  
+    && apt-get clean; 
 
 # RISC-V device toolchain
-COPY ./get-toolchain.py /tmp/get-toolchain.py
-RUN /tmp/get-toolchain.py -r ${RISCV_TOOLCHAIN_TAR_VERSION} \
-    && rm -f /tmp/get-toolchain.py  
+COPY ./get-toolchain.py ./get-toolchain.py
+RUN ./get-toolchain.py -r ${RISCV_TOOLCHAIN_TAR_VERSION} \
+    && rm -f ./get-toolchain.py  
 
 # All subsequent steps are performed as user.
 USER dev:dev
@@ -66,11 +65,11 @@ USER dev:dev
 # Python version. If that information is not read, pip installs the latest
 # version, which then fails to run.
 ENV PATH "/home/dev/.local/bin:${PATH}"
-COPY --chown=dev:dev ./python-requirements.txt /tmp/python-requirements.txt
+COPY --chown=dev:dev ./python-requirements.txt ./python-requirements.txt
 RUN python3 -m pip install --user -U pip "setuptools<66.0.0" \
-    && python3 -m pip install --user -r /tmp/python-requirements.txt \
+    && python3 -m pip install --user -r ./python-requirements.txt \
         --no-warn-script-location \
-    && rm -f /tmp/python-requirements.txt
+    && rm -f ./python-requirements.txt
 
 RUN sudo apt-get install -y libelf-dev srecord && \ 
     git clone https://github.com/tsl0922/ttyd.git && \ 
