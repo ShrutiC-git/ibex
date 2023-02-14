@@ -27,6 +27,7 @@ RUN ln -sf /bin/bash /bin/sh
 # Necessary to avoid user interaction with tzdata during install
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=UTC
+
 # RISC-V device toolchain
 COPY ./get-toolchain.py ./get-toolchain.py
 RUN ./get-toolchain.py -r ${RISCV_TOOLCHAIN_TAR_VERSION} \
@@ -50,13 +51,14 @@ RUN echo "verilator-${VERILATOR_VERSION}" >>./apt-requirements.txt \
         software-properties-common \
     && apt-get clean; 
 
+# All subsequent steps are performed as user.
+USER dev:dev
+
 # RISC-V device toolchain
-COPY ./get-toolchain.py ./get-toolchain.py
+COPY --chown=dev:dev ./get-toolchain.py ./get-toolchain.py
 RUN ./get-toolchain.py -r ${RISCV_TOOLCHAIN_TAR_VERSION} \
     && rm -f ./get-toolchain.py  
 
-# All subsequent steps are performed as user.
-USER dev:dev
 
 # Install Python plus packages.
 # Explicitly updating pip and setuptools is required to have these tools
