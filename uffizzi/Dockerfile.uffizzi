@@ -58,8 +58,8 @@ RUN  ./get-toolchain.py -r ${RISCV_TOOLCHAIN_TAR_VERSION} \
 ENV PATH "/home/dev/.local/bin:${PATH}"
 COPY --chown=dev:dev ./python-requirements.txt ./python-requirements.txt
 RUN apt-get update && \
-    apt-get install -y python3-pip pip \
-RUN pip install -r ./python-requirements.txt \
+    apt-get install -y python3-pip pip
+RUN pip install -r python-requirements.txt \
         --no-warn-script-location \
     && rm -f ./python-requirements.txt
 
