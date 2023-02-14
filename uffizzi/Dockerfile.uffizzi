@@ -50,7 +50,7 @@ COPY apt-requirements.txt /tmp/apt-requirements.txt
 RUN echo "verilator-${VERILATOR_VERSION}" >>/tmp/apt-requirements.txt \
     && sed -i -e '/^$/d' -e '/^#/d' -e 's/#.*//' /tmp/apt-requirements.txt \
     && apt-get update && \
-    xargs apt-get install -y <apt-requirements.txt \
+    xargs apt-get install -y </tmp/apt-requirements.txt \
         sudo \
         verilator \
         gosu \
