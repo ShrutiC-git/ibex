@@ -71,10 +71,10 @@ RUN add-apt-repository ppa:ubuntu-toolchain-r/test \
     && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-${GCC_VERSION} 90
 
 # RISC-V device toolchain
-COPY ./get-toolchain.py /tmp/get-toolchain.py
-RUN chmod +x /tmp/get-toolchain.py
-RUN  /tmp/get-toolchain.py -r ${RISCV_TOOLCHAIN_TAR_VERSION} \
-    && rm -f /tmp/get-toolchain.py  
+COPY ./get-toolchain.py ./get-toolchain.py
+RUN chmod +x ./get-toolchain.py
+RUN  ./get-toolchain.py -r ${RISCV_TOOLCHAIN_TAR_VERSION} \
+    && rm -f ./get-toolchain.py  
     
 # Install and configure clang and llvm tools for coverage measurements.
 # Note: Some commands listed below are missing in 13.0.1 and cause warnings during
