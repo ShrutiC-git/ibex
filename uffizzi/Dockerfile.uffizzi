@@ -25,21 +25,7 @@ ARG CLANG_VERSION
 RUN ln -sf /bin/bash /bin/sh
 
 COPY ./apt-requirements.txt ./apt-requirements.txt
-RUN echo "verilator-${VERILATOR_VERSION}" >>./apt-requirements.txt \
-    && sed -i -e '/^$/d' -e '/^#/d' -e 's/#.*//' ./apt-requirements.txt \
-    && apt-get update \
-    && xargs apt-get install -y <./apt-requirements.txt \
-    && apt-get install -y \
-        sudo \
-        gosu \
-        locales \
-        locales-all \
-        minicom \
-        screen \
-        dc \
-        time \
-        software-properties-common \
-    && apt-get clean; 
+RUN apt-get install -y <./apt-requirements.txt 
 
 # All subsequent steps are performed as user.
 USER dev:dev
