@@ -50,7 +50,7 @@ COPY apt-requirements.txt /tmp/apt-requirements.txt
 RUN echo "verilator-${VERILATOR_VERSION}" >>/tmp/apt-requirements.txt \
     && sed -i -e '/^$/d' -e '/^#/d' -e 's/#.*//' /tmp/apt-requirements.txt \
     && apt-get update && \
-    apt-get install -y <apt-requirements.txt \
+    xargs apt-get install -y <apt-requirements.txt \
         sudo \
         verilator \
         gosu \
@@ -65,10 +65,7 @@ RUN echo "verilator-${VERILATOR_VERSION}" >>/tmp/apt-requirements.txt \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
 # Install the CI version of gcc and g++
-RUN apt-get update && \
-    apt-get install -y software-properties-common && \
-    add-apt-repository ppa:ubuntu-toolchain-r/test \
-    && apt-get update \
+RUN add-apt-repository ppa:ubuntu-toolchain-r/test \
     && apt-get install -y gcc-${GCC_VERSION} g++-${GCC_VERSION} \
     && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_VERSION} 90 \
     && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-${GCC_VERSION} 90
@@ -141,9 +138,6 @@ ENV PATH "/tools/verible/bin:${PATH}"
 # Python version. If that information is not read, pip installs the latest
 # version, which then fails to run.
 ENV PATH "/home/dev/.local/bin:${PATH}"
-
-RUN apt-get update && \
-    apt-get install -y python3-pip pip
 COPY python-requirements.txt python-requirements.txt
 COPY google_risc-dv/requirements.txt vendor/google_riscv-dv/requirements.txt
 
