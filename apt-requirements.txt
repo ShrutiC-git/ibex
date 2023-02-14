@@ -13,7 +13,6 @@
 # doc/ug/install_instructions/index.md needs to be updated as well.
 #
 # Keep it sorted.
-
 python3
 python3-pip
 python3-setuptools
