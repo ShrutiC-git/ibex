@@ -61,7 +61,8 @@ ENV PATH "/home/dev/.local/bin:${PATH}"
 
 RUN apt-get update && \
     apt-get install -y python3-pip pip
-RUN pip install -r ./python-requirements.txt \
+COPY python-requirements.txt python-requirements.txt
+RUN pip install -r python-requirements.txt \
         --no-warn-script-location \
     && rm -f ./python-requirements.txt
 
