@@ -12,7 +12,7 @@ import subprocess
 import sys
 import tempfile
 from pathlib import Path
-from urllib.request import urlopen, urlretrieve, Request
+from urllib.request import urlopen, urlretrieve
 
 log.basicConfig(level=log.INFO, format="%(levelname)s: %(message)s")
 
@@ -39,13 +39,11 @@ def get_available_toolchain_info(version, kind):
     assert kind in ASSET_PREFIXES
 
     if version == 'latest':
-        
         releases_url = '%s/%s' % (RELEASES_URL_BASE, version)
     else:
         releases_url = '%s/tags/%s' % (RELEASES_URL_BASE, version)
 
-    request_site = Request(releases_url, headers={"User-Agent": "Mozilla/5.0"})
-    with urlopen(request_site) as f:
+    with urlopen(releases_url) as f:
         release_info = json.loads(f.read().decode('utf-8'))
 
     for asset in release_info["assets"]:
