@@ -28,6 +28,7 @@ services:
       rm -rf ibex-cosim-v0.3.zip && \
       git clone https://github.com/riscv/riscv-pk && \
       apt-get install device-tree-compiler -y && \
+      cd $GHA_REPO-$GHA_BRANCH && \
       ttyd bash
       "
     deploy:
