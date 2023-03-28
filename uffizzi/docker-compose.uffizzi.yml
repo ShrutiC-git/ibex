@@ -15,7 +15,9 @@ services:
     # volumes:
     #   - ./:/ibex-core
     entrypoint: ["/bin/bash"] 
-    command: ["-c", "git", "clone", "https://github.com/$GHA_ACTOR/$GHA_REPO/tree/$GHA_BRANCH.zip", "&&", "ttyd", "bash"]
+    command: 
+    - "-c"
+    - "git clone https://github.com/$GHA_ACTOR/$GHA_REPO/tree/$GHA_BRANCH"
     # - "-c"
     # - "apt-get update && \ 
     #   apt-get install neovim -y && \
